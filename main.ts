@@ -17,7 +17,7 @@ radio.onReceivedString(function (receivedString) {
             . . # . .
             . . # . .
             `)
-        MoveForward(1)
+        MoveForward(1.1)
     } else if (receivedString == "BA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.YELLOW)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.YELLOW)
@@ -28,7 +28,7 @@ radio.onReceivedString(function (receivedString) {
             . # # # .
             . . # . .
             `)
-        MoveBackward(1)
+        MoveBackward(1.1)
     } else if (receivedString == "LA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
         basic.showLeds(`
@@ -146,8 +146,7 @@ let basespeed = 0
 let _90degrees = 0
 radio.setGroup(1)
 _90degrees = 0.35
-let trim = 0
-basespeed = 55
+basespeed = 50
 basic.forever(function () {
 	
 })
