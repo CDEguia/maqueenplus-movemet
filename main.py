@@ -49,13 +49,13 @@ def on_received_string(receivedString):
         """)
         TurnRight(_90degrees)
     elif receivedString == "slowForward":
-        MoveForward(0.05)
+        MoveForward(0.01)
     elif receivedString == "slowBackward":
-        MoveBackward(0.05)
+        MoveBackward(0.01)
     elif receivedString == "oneDegreeLeft":
-        TurnLeft(0.02)
+        TurnLeft(0.01)
     elif receivedString == "oneDegreeRight":
-        TurnRight(0.02)
+        TurnRight(0.01)
     else:
         pass
     DFRobotMaqueenPlus.motot_stop(Motors.ALL)

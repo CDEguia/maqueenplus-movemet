@@ -51,13 +51,13 @@ radio.onReceivedString(function on_received_string(receivedString: string) {
         `)
         TurnRight(_90degrees)
     } else if (receivedString == "slowForward") {
-        MoveForward(0.05)
+        MoveForward(0.01)
     } else if (receivedString == "slowBackward") {
-        MoveBackward(0.05)
+        MoveBackward(0.01)
     } else if (receivedString == "oneDegreeLeft") {
-        TurnLeft(0.02)
+        TurnLeft(0.01)
     } else if (receivedString == "oneDegreeRight") {
-        TurnRight(0.02)
+        TurnRight(0.01)
     } else {
         
     }
