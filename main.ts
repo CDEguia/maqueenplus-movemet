@@ -1,12 +1,13 @@
-function TurnLeft (num: number) {
+function TurnLeft(num: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
     DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CCW, 55)
     DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 55)
     while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
-    	
+        
     }
 }
-radio.onReceivedString(function (receivedString) {
+
+radio.onReceivedString(function on_received_string(receivedString: string) {
     if (receivedString == "FA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
@@ -16,7 +17,7 @@ radio.onReceivedString(function (receivedString) {
             # . # . #
             . . # . .
             . . # . .
-            `)
+        `)
         MoveForward(1.1)
     } else if (receivedString == "BA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.YELLOW)
@@ -27,7 +28,7 @@ radio.onReceivedString(function (receivedString) {
             # . # . #
             . # # # .
             . . # . .
-            `)
+        `)
         MoveBackward(1.1)
     } else if (receivedString == "LA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
@@ -37,7 +38,7 @@ radio.onReceivedString(function (receivedString) {
             # . # # #
             . # . . .
             . . # . .
-            `)
+        `)
         TurnLeft(_90degrees)
     } else if (receivedString == "RA") {
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
@@ -47,7 +48,7 @@ radio.onReceivedString(function (receivedString) {
             # # # . #
             . . . # .
             . . # . .
-            `)
+        `)
         TurnRight(_90degrees)
     } else if (receivedString == "slowForward") {
         MoveForward(0.05)
@@ -58,8 +59,9 @@ radio.onReceivedString(function (receivedString) {
     } else if (receivedString == "oneDegreeRight") {
         TurnRight(0.02)
     } else {
-    	
+        
     }
+    
     DFRobotMaqueenPlus.mototStop(Motors.ALL)
     basic.showLeds(`
         # . . . #
@@ -67,11 +69,11 @@ radio.onReceivedString(function (receivedString) {
         . # # . .
         . # . . .
         . . . . .
-        `)
+    `)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.RED)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.RED)
 })
-radio.onReceivedValue(function (name, value) {
+radio.onReceivedValue(function on_received_value(name: string, value: number) {
     if (name == "F") {
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
@@ -82,7 +84,7 @@ radio.onReceivedValue(function (name, value) {
             # . # . #
             . . # . .
             . . # . .
-            `)
+        `)
     } else if (name == "B") {
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.BLUE)
@@ -93,7 +95,7 @@ radio.onReceivedValue(function (name, value) {
             # . # . #
             . # . # .
             . . # . .
-            `)
+        `)
     } else if (name == "L") {
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 20)
@@ -104,7 +106,7 @@ radio.onReceivedValue(function (name, value) {
             # . # # #
             . # . . .
             . . # . .
-            `)
+        `)
     } else if (name == "R") {
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 20)
@@ -115,38 +117,42 @@ radio.onReceivedValue(function (name, value) {
             # # # . #
             . . . # .
             . . # . .
-            `)
+        `)
     }
+    
 })
-function TurnRight (num: number) {
+function TurnRight(num2: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
     DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 55)
     DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CCW, 55)
-    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
-    	
+    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num2 || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num2) {
+        
     }
 }
-function MoveBackward (num: number) {
+
+function MoveBackward(num3: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
     DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CCW, basespeed)
     DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CCW, basespeed)
-    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
-    	
+    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num3 || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num3) {
+        
     }
 }
-function MoveForward (num: number) {
+
+function MoveForward(num4: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
     DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, basespeed)
     DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, basespeed)
-    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
-    	
+    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num4 || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num4) {
+        
     }
 }
+
 let basespeed = 0
 let _90degrees = 0
 radio.setGroup(1)
 _90degrees = 0.35
 basespeed = 50
-basic.forever(function () {
-	
+basic.forever(function on_forever() {
+    
 })
