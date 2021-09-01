@@ -48,7 +48,7 @@ radio.onReceivedString(function (receivedString) {
             . . . # .
             . . # . .
             `)
-        TurnRight(1)
+        TurnRight(_90degrees)
     } else if (receivedString == "slowForward") {
         MoveForward(0.05)
     } else if (receivedString == "slowBackward") {
@@ -61,7 +61,13 @@ radio.onReceivedString(function (receivedString) {
     	
     }
     DFRobotMaqueenPlus.mototStop(Motors.ALL)
-    basic.showIcon(IconNames.No)
+    basic.showLeds(`
+        # . . . #
+        . # # # .
+        . # # . .
+        . # . . .
+        . . . . .
+        `)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.RED)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.RED)
 })
