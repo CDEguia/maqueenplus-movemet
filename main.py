@@ -1,54 +1,32 @@
 
 def on_received_string(receivedString):
-    if receivedString == "FA":
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . # # # .
-            # . # . #
-            . . # . .
-            . . # . .
-        """)
+    if receivedString == "oneForward":
+        display_direction("forward")
         MoveForward(fullmove)
-    elif receivedString == "BA":
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.YELLOW)
-        basic.show_leds("""
-            . . # . .
-            . . # . .
-            # . # . #
-            . # # # .
-            . . # . .
-        """)
+    elif receivedString == "oneBackward":
+        display_direction("backward")
         MoveBackward(fullmove)
-    elif receivedString == "LA":
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . # . . .
-            # . # # #
-            . # . . .
-            . . # . .
-        """)
+    elif receivedString == "oneLeft":
+        turn_signal("left", 3)
+        display_direction("left")
         TurnLeft(quarterTurn)
-    elif receivedString == "RA":
-        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . . . # .
-            # # # . #
-            . . . # .
-            . . # . .
-        """)
+    elif receivedString == "oneRight":
+        turn_signal("right", 3)
+        display_direction("right")
         TurnRight(quarterTurn)
-    elif receivedString == "slowForward":
+    elif receivedString == "littleForward":
+        display_direction("forward")
         MoveForward(smallmove)
-    elif receivedString == "slowBackward":
+    elif receivedString == "littleBackward":
+        display_direction("backward")
         MoveBackward(smallmove)
-    elif receivedString == "oneDegreeLeft":
+    elif receivedString == "littleLeft":
+        display_direction("left")
+        turn_signal("left", 2)
         TurnLeft(smallmove)
-    elif receivedString == "oneDegreeRight":
+    elif receivedString == "littleRight":
+        display_direction("right")
+        turn_signal("right", 2)
         TurnRight(smallmove)
     else:
         pass
@@ -60,55 +38,31 @@ def on_received_string(receivedString):
         . # . . .
         . . . . .
     """)
-    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.RED)
-    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.RED)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.White)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.White)
 radio.on_received_string(on_received_string)
 
 def on_received_value(name, value):
-    if name == "F":
+    if name == "forward":
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . # . # .
-            # . # . #
-            . . # . .
-            . . # . .
-        """)
-    elif name == "B":
+        display_direction("forward")
+    elif name == "backward":
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.BLUE)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.BLUE)
-        basic.show_leds("""
-            . . # . .
-            . . # . .
-            # . # . #
-            . # . # .
-            . . # . .
-        """)
-    elif name == "L":
+        display_direction("backward")
+    elif name == "left":
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . # . . .
-            # . # # #
-            . # . . .
-            . . # . .
-        """)
-    elif name == "R":
+        display_direction("left")
+    elif name == "right":
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        basic.show_leds("""
-            . . # . .
-            . . . # .
-            # # # . #
-            . . . # .
-            . . # . .
-        """)
+        display_direction("right")
 radio.on_received_value(on_received_value)
 
 def TurnLeft(num: number):
@@ -138,6 +92,53 @@ def MoveForward(num4: number):
     DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, basespeed)
     while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num4 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num4:
         pass
+
+def turn_signal(direction: string, blink: number):
+    lightToBlink = "1"
+    if direction == "left":
+        lightToBlink = "2"
+    
+    for i in range(blink):
+        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.YELLOW)
+        basic.pause(500)
+        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.WHITE)
+        basic.pause(500)
+
+
+
+def display_direction(direction: string):
+    if direction == "forward":
+        basic.show_leds("""
+            . . # . .
+            . # . # .
+            # . # . #
+            . . # . .
+            . . # . .
+        """)
+    elif direction == "backward":
+        basic.show_leds("""
+            . . # . .
+            . . # . .
+            # . # . #
+            . # . # .
+            . . # . .
+        """)
+    elif direction == "left":
+        basic.show_leds("""
+            . . # . .
+            . . . # .
+            # # # . #
+            . . . # .
+            . . # . .
+        """)
+    else:
+        basic.show_leds("""
+            . . # . .
+            . # . . .
+            # . # # #
+            . # . . .
+            . . # . .
+        """)
 
 basespeed = 0
 quarterTurn = 0
