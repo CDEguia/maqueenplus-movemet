@@ -1,63 +1,32 @@
-function TurnLeft(num: number) {
-    DFRobotMaqueenPlus.clearDistance(Motors.ALL)
-    DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CCW, 55)
-    DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 55)
-    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
-        
-    }
-}
-
 radio.onReceivedString(function on_received_string(receivedString: string) {
-    if (receivedString == "FA") {
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . # # # .
-            # . # . #
-            . . # . .
-            . . # . .
-        `)
-        MoveForward(1.1)
-    } else if (receivedString == "BA") {
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.YELLOW)
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.YELLOW)
-        basic.showLeds(`
-            . . # . .
-            . . # . .
-            # . # . #
-            . # # # .
-            . . # . .
-        `)
-        MoveBackward(1.1)
-    } else if (receivedString == "LA") {
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . # . . .
-            # . # # #
-            . # . . .
-            . . # . .
-        `)
-        TurnLeft(_90degrees)
-    } else if (receivedString == "RA") {
-        DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . . . # .
-            # # # . #
-            . . . # .
-            . . # . .
-        `)
-        TurnRight(_90degrees)
-    } else if (receivedString == "slowForward") {
-        MoveForward(0.01)
-    } else if (receivedString == "slowBackward") {
-        MoveBackward(0.01)
-    } else if (receivedString == "oneDegreeLeft") {
-        TurnLeft(0.01)
-    } else if (receivedString == "oneDegreeRight") {
-        TurnRight(0.01)
+    if (receivedString == "oneForward") {
+        display_direction("forward")
+        MoveForward(fullmove)
+    } else if (receivedString == "oneBackward") {
+        display_direction("backward")
+        MoveBackward(fullmove)
+    } else if (receivedString == "oneLeft") {
+        display_direction("left")
+        turn_signal("left", 4)
+        TurnLeft(quarterTurn)
+    } else if (receivedString == "oneRight") {
+        display_direction("right")
+        turn_signal("right", 4)
+        TurnRight(quarterTurn)
+    } else if (receivedString == "littleForward") {
+        display_direction("forward")
+        MoveForward(smallmove)
+    } else if (receivedString == "littleBackward") {
+        display_direction("backward")
+        MoveBackward(smallmove)
+    } else if (receivedString == "littleLeft") {
+        display_direction("left")
+        turn_signal("left", 2)
+        TurnLeft(smallmove)
+    } else if (receivedString == "littleRight") {
+        display_direction("right")
+        turn_signal("right", 2)
+        TurnRight(smallmove)
     } else {
         
     }
@@ -70,61 +39,46 @@ radio.onReceivedString(function on_received_string(receivedString: string) {
         . # . . .
         . . . . .
     `)
-    DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.RED)
-    DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.RED)
+    DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.WHITH)
+    DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.WHITH)
 })
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
-    if (name == "F") {
+    if (name == "forward") {
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . # . # .
-            # . # . #
-            . . # . .
-            . . # . .
-        `)
-    } else if (name == "B") {
+        display_direction("forward")
+    } else if (name == "backward") {
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.BLUE)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.BLUE)
-        basic.showLeds(`
-            . . # . .
-            . . # . .
-            # . # . #
-            . # . # .
-            . . # . .
-        `)
-    } else if (name == "L") {
+        display_direction("backward")
+    } else if (name == "left") {
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 20)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . # . . .
-            # . # # #
-            . # . . .
-            . . # . .
-        `)
-    } else if (name == "R") {
+        display_direction("left")
+    } else if (name == "right") {
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 20)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        basic.showLeds(`
-            . . # . .
-            . . . # .
-            # # # . #
-            . . . # .
-            . . # . .
-        `)
+        display_direction("right")
     }
     
 })
+function TurnLeft(num: number) {
+    DFRobotMaqueenPlus.clearDistance(Motors.ALL)
+    DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CCW, turnSpeed)
+    DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, turnSpeed)
+    while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num) {
+        
+    }
+}
+
 function TurnRight(num2: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
-    DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 55)
-    DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CCW, 55)
+    DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, turnSpeed)
+    DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CCW, turnSpeed)
     while (Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M2))) < num2 || Math.abs(parseFloat(DFRobotMaqueenPlus.readeDistance(Motors1.M1))) < num2) {
         
     }
@@ -148,11 +102,68 @@ function MoveForward(num4: number) {
     }
 }
 
+function turn_signal(direction: string, blink: number) {
+    let lightToBlink = 2
+    if (direction == "left") {
+        lightToBlink = 1
+    }
+    
+    for (let i = 0; i < blink; i++) {
+        DFRobotMaqueenPlus.setRGBLight(lightToBlink, Color.YELLOW)
+        basic.pause(250)
+        DFRobotMaqueenPlus.setRGBLight(lightToBlink, Color.WHITH)
+        basic.pause(250)
+    }
+}
+
+function display_direction(direction: string) {
+    if (direction == "forward") {
+        basic.showLeds(`
+            . . # . .
+            . # . # .
+            # . # . #
+            . . # . .
+            . . # . .
+        `)
+    } else if (direction == "backward") {
+        basic.showLeds(`
+            . . # . .
+            . . # . .
+            # . # . #
+            . # . # .
+            . . # . .
+        `)
+    } else if (direction == "left") {
+        basic.showLeds(`
+            . . # . .
+            . . . # .
+            # # # . #
+            . . . # .
+            . . # . .
+        `)
+    } else {
+        basic.showLeds(`
+            . . # . .
+            . # . . .
+            # . # # #
+            . # . . .
+            . . # . .
+        `)
+    }
+    
+}
+
 let basespeed = 0
-let _90degrees = 0
+let quarterTurn = 0
+let turnSpeed = 0
+let fullmove = 0
+let smallmove = 0
 radio.setGroup(1)
-_90degrees = 0.35
 basespeed = 50
+turnSpeed = 50
+quarterTurn = 0.35
+fullmove = 0.75
+smallmove = 0.01
 basic.forever(function on_forever() {
     
 })
