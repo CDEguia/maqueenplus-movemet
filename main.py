@@ -1,34 +1,5 @@
-LEFT = 0
-RIGHT = 1
-FORWARD = 2
-BACKWARD = 3
-DAMAGE = 4
-
-convertedString = [0,0,0]
-
-basespeed = 0
-turnSpeed = 0
-
-radio.set_group(1)
-
-basespeed = 50
-turnSpeed = 50
-
-moveAmount = [0.01, 0.75, 1.50, 2.25]
-turnAmount = [0.01, .35, .70]
-
-def convert_received_string(received: str):
-    for i in range(2):
-        convertedString[i] = int(received[i])
-
-def clear_convertedString():
-    for i in range(2):
-        convertedString[i] = 0
-
 def on_received_string(receivedString):
-
     convert_received_string(receivedString)
-    
     if convertedString[0] == BACKWARD :
         display_backward()
         move_backward(convertedString[1])
@@ -48,10 +19,8 @@ def on_received_string(receivedString):
     else:
         pass
     DFRobotMaqueenPlus.motot_stop(Motors.ALL)
-
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.WHITH)
-    
     clear_convertedString()
 radio.on_received_string(on_received_string)
 
@@ -107,73 +76,98 @@ def move_forward(forwardAmount: number):
         pass
 
 def left_turn_signal(leftBlink: number):
-    leftBlink = leftBlink+1
-    for i in range(leftBlink):
+    for b in range(leftBlink + 1):
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
         basic.pause(250)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
         basic.pause(250)
 
 def right_turn_signal(rightBlink: number):
-    rightBlink = rightBlink+1
-    for i in range(rightBlink):
+    for a in range(rightBlink+1):
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
         basic.pause(250)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
         basic.pause(250)     
 
-
-
 def display_forward():
-        basic.show_leds("""
-            . . # . .
-            . # . # .
-            # . # . #
-            . . # . .
-            . . # . .
-        """)
+    basic.show_leds("""
+        . . # . .
+        . # . # .
+        # . # . #
+        . . # . .
+        . . # . .
+    """)
+
 def display_backward():
-        basic.show_leds("""
-            . . # . .
-            . . # . .
-            # . # . #
-            . # . # .
-            . . # . .
-        """)
+    basic.show_leds("""
+        . . # . .
+        . . # . .
+        # . # . #
+        . # . # .
+        . . # . .
+    """)
+
 def display_left():
-        basic.show_leds("""
-            . . # . .
-            . . . # .
-            # # # . #
-            . . . # .
-            . . # . .
-        """)
+    basic.show_leds("""
+        . . # . .
+        . . . # .
+        # # # . #
+        . . . # .
+        . . # . .
+    """)
+
 def display_right():
-        basic.show_leds("""
-            . . # . .
-            . # . . .
-            # . # # #
-            . # . . .
-            . . # . .
-        """)
+    basic.show_leds("""
+        . . # . .
+        . # . . .
+        # . # # #
+        . # . . .
+        . . # . .
+    """)
+
 def display_damage():
-        basic.show_leds("""
-            # . . . #
-            . # . # .
-            . . # . .
-            . # . # .
-            # . . . #
-        """)     
+    basic.show_leds("""
+        # . . . #
+        . # . # .
+        . . # . .
+        . # . # .
+        # . . . #
+    """)     
+
 def display_smile():
-        basic.show_leds("""
-            # . . . #
-            . # # # .
-            . . . . .
-            . . . . .
-            . . . . .
-        """)
+    basic.show_leds("""
+        # . . . #
+        . # # # .
+        . . . . .
+        . . . . .
+        . . . . .
+    """)
 
-def on_forever():
-    pass
+def convert_received_string(received: str):
+    for k in range(2):
+        convertedString[k] = int(received.char_at(k))
 
-basic.forever(on_forever)
+def clear_convertedString():
+    for i in range(2):
+        convertedString[i] = 0
+
+basespeed = 0
+turnSpeed = 0
+LEFT = 0
+DAMAGE = 0
+BACKWARD = 0
+FORWARD = 0
+RIGHT = 0
+moveAmount: List[number] = []
+turnAmount: List[number]  = []
+LEFT = 1
+RIGHT = 2
+FORWARD = 3
+BACKWARD = 4
+DAMAGE = 5
+convertedString = [0,0,0]
+basespeed = 50
+turnSpeed = 50
+moveAmount = [0.01, 0.75, 1.50, 2.25]
+turnAmount = [0.01, .35, .70]
+radio.set_group(1)
