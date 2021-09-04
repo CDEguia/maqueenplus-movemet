@@ -4,7 +4,7 @@ FORWARD = 2
 BACKWARD = 3
 DAMAGE = 4
 
-convertedString = []
+convertedString = [0,0,0]
 
 basespeed = 0
 turnSpeed = 0
@@ -19,10 +19,11 @@ turnAmount = [0.01, .35, .70]
 
 def convert_received_string(received: str):
     for i in range(2):
-        convertedString.append(int(received[i]))
+        convertedString[i] = int(received[i])
 
 def clear_convertedString():
-    convertedString = []
+    for i in range(2):
+        convertedString[i] = 0
 
 def on_received_string(receivedString):
 
