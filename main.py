@@ -7,67 +7,51 @@ DAMAGE = 4
 convertedString = []
 
 basespeed = 0
-quarterTurn = 0
 turnSpeed = 0
-fullmove = 0
-smallmove = 0
+
 radio.set_group(1)
 
 basespeed = 50
 turnSpeed = 50
 
-quarterTurn = 0.35
-fullmove = 0.75
-baseMove = 0.01
-moveAmount = 0
-
-def calculate_turn(receivedValue: number, type: number):
-    
-    moveAmount = (receivedValue*35)*baseMove
-
-def calculate_squars(receicedValue: number):
-    mo
-
+moveAmount = [0.01, 0.75, 1.50, 2.25]
+turnAmount = [0.01, .35, .70]
 
 def convert_received_string(received: str):
     for i in 2:
         convertedString.append(int(received[i]))
 
-def on_received_string(receivedString):
-    convert_received_string(receivedString)
+def clear_convertedString():
+    convertedString = []
 
-    display_direction(convertedString[0])
+def on_received_string(receivedString):
+
+    convert_received_string(receivedString)
     
-    if convertedString[0] >= RIGHT :
-        calculate_turn(convertedString[1])
-    elif convertedString[1] >= BACKWARD :
-        cal
-    if convertedString[0] >= BACKWARD :
-        MoveBackward(convertedString[1])
+    if convertedString[0] == BACKWARD :
+        display_backward()
+        move_backward(convertedString[1])
     elif convertedString[0] == FORWARD:
-        MoveForward(convertedString[1])
+        display_forward()
+        move_forward(convertedString[1])
     elif convertedString[0] == LEFT:
-        turn_signal("left", 4)
-        TurnLeft(convertedString[1])
+        display_left()
+        left_turn_signal(convertedString[1])
+        turn_left(convertedString[1])
     elif convertedString[0] == RIGHT:
-        turn_signal("right", 4)
-        TurnRight(convertedString[1])
-#    elif receivedString == "littleForward":
-#        MoveForward(smallmove)
-#    elif receivedString == "littleBackward":
-#        MoveBackward(smallmove)
-#    elif receivedString == "littleLeft":
-#        turn_signal("left", 2)
-#        TurnLeft(smallmove)
-#    elif receivedString == "littleRight":
-#        turn_signal("right", 2)
-#        TurnRight(smallmove)
+        display_right()
+        right_turn_signal(convertedString[1])
+        turn_right(convertedString[1])
+    elif convertedString[0] == DAMAGE:
+        display_damage(convertedString[1])
     else:
         pass
     DFRobotMaqueenPlus.motot_stop(Motors.ALL)
 
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.WHITH)
+    
+    clear_convertedString()
 radio.on_received_string(on_received_string)
 
 def on_received_value(name, value):
@@ -93,49 +77,53 @@ def on_received_value(name, value):
         display_direction("right")
 radio.on_received_value(on_received_value)
 
-def TurnLeft(num: number):
+def turn_left(leftTurnAmount: number):
     DFRobotMaqueenPlus.clear_distance(Motors.ALL)
     DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CCW, turnSpeed)
     DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, turnSpeed)
-    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num:
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < leftTurnAmount or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < leftTurnAmount:
         pass
 
-def TurnRight(num2: number):
+def turn_right(rightTurnAmount: number):
     DFRobotMaqueenPlus.clear_distance(Motors.ALL)
     DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, turnSpeed)
     DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CCW, turnSpeed)
-    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num2 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num2:
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < rightTurnAmount or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < rightTurnAmount:
         pass
 
-def MoveBackward(num3: number):
+def move_backward(backwardAmount: number):
     DFRobotMaqueenPlus.clear_distance(Motors.ALL)
     DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CCW, basespeed)
     DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CCW, basespeed)
-    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num3 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num3:
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < backwardAmount or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < backwardAmount:
         pass
 
-def MoveForward(num4: number):
+def move_forward(forwardAmount: number):
     DFRobotMaqueenPlus.clear_distance(Motors.ALL)
     DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, basespeed)
     DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, basespeed)
-    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num4 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num4:
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < forwardAmount or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < forwardAmount:
         pass
 
-def turn_signal(direction: str, blink: number):
-    lightToBlink = 2
-    if direction == "left":
-        lightToBlink = 1
-    
-    for i in range(blink):
-        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.YELLOW)
+def left_turn_signal(leftBlink: number):
+    leftBlink = leftBlink+1
+    for i in range(leftBlink):
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
         basic.pause(250)
-        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.WHITH)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
         basic.pause(250)
 
+def right_turn_signal(rightBlink: number):
+    rightBlink = rightBlink+1
+    for i in range(rightBlink):
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
+        basic.pause(250)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
+        basic.pause(250)     
 
 
-def display_direction(direction: str):
-    if (direction == "oneForward") or (direction == "littleForward"):
+
+def display_forward():
         basic.show_leds("""
             . . # . .
             . # . # .
@@ -143,7 +131,7 @@ def display_direction(direction: str):
             . . # . .
             . . # . .
         """)
-    elif (direction == "oneBackward") or (direction == "littleBackward"):
+def display_backward():
         basic.show_leds("""
             . . # . .
             . . # . .
@@ -151,7 +139,7 @@ def display_direction(direction: str):
             . # . # .
             . . # . .
         """)
-    elif (direction == "oneLeft") or (direction == "littleLeft"):
+def display_left():
         basic.show_leds("""
             . . # . .
             . . . # .
@@ -159,7 +147,7 @@ def display_direction(direction: str):
             . . . # .
             . . # . .
         """)
-    elif (direction == "oneLeft") or (direction == "littleRight"):
+def display_right():
         basic.show_leds("""
             . . # . .
             . # . . .
@@ -167,12 +155,20 @@ def display_direction(direction: str):
             . # . . .
             . . # . .
         """)
-    else:
+def display_damage():
+        basic.show_leds("""
+            # . . . #
+            . # . # .
+            . . # . .
+            . # . # .
+            # . . . #
+        """)     
+def display_smile():
         basic.show_leds("""
             # . . . #
             . # # # .
-            . # # . .
-            . # . . .
+            . . . . .
+            . . . . .
             . . . . .
         """)
 
