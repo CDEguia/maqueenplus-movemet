@@ -18,11 +18,11 @@ moveAmount = [0.01, 0.75, 1.50, 2.25]
 turnAmount = [0.01, .35, .70]
 
 def convert_received_string(received: str):
-    for i in range(3):
-        convertedString[i-1] = int(received[i])
+    for i in range(2):
+        convertedString[i] = int(received[i])
 
 def clear_convertedString():
-    for i in range(3):
+    for i in range(2):
         convertedString[i] = 0
 
 def on_received_string(receivedString):
