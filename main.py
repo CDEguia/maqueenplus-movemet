@@ -18,7 +18,7 @@ moveAmount = [0.01, 0.75, 1.50, 2.25]
 turnAmount = [0.01, .35, .70]
 
 def convert_received_string(received: str):
-    for i in 2:
+    for i in range(2):
         convertedString.append(int(received[i]))
 
 def clear_convertedString():
@@ -43,7 +43,7 @@ def on_received_string(receivedString):
         right_turn_signal(convertedString[1])
         turn_right(convertedString[1])
     elif convertedString[0] == DAMAGE:
-        display_damage(convertedString[1])
+        display_damage()
     else:
         pass
     DFRobotMaqueenPlus.motot_stop(Motors.ALL)
@@ -59,22 +59,22 @@ def on_received_value(name, value):
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        display_direction("forward")
+        display_forward()
     elif name == "backward":
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.BLUE)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.BLUE)
-        display_direction("backward")
+        display_backward()
     elif name == "left":
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
-        display_direction("left")
+        display_left()
     elif name == "right":
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        display_direction("right")
+        display_right()
 radio.on_received_value(on_received_value)
 
 def turn_left(leftTurnAmount: number):
